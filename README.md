@@ -1,5 +1,4 @@
 # Express Card — Locator
-[![pipeline status](https://gitlab.com/azs-locator/vue/badges/master/pipeline.svg)](https://gitlab.com/azs-locator/vue/commits/master)
 
 **АЗС-Локатор** – это поисково-информационный сервис, который позволяет:
 * Посмотреть карты, с нанесенными на них АЗС
@@ -30,4 +29,3 @@ $ npm run generate
 - [x] В локатор добавить капельку шиномонтаж.
 - [ ] Возможность сделать прямую ссылку на все точки одного эмитента.
 - [X] Прямую ссылку на геопозицию (latitude, longitude) и address.
-# locator
