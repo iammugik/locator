@@ -1,0 +1,20 @@
+div
+  h2.title.is-4 Фильтрация АЗС
+  h3.title.is-5 По картам
+  .field
+    .control.is-clearfix
+      label.filterCard(v-for="card in cardsWithImages", :key="card.id")
+        input(type="checkbox", :value="card.id" v-model="card.value")
+        img(v-if="card.image", :src="`https://locator.expcard.ru/azs/media/${card.image}`", :alt="card.name")
+        span.filterCard__icon
+        span.filterCard__title {{ card.name.split(', ')[0] }}
+          span(v-if="card.name.split(', ')[1]") ,
+          span.filterCard__title-red(v-if="card.name.split(', ')[1]") &nbsp;{{ card.name.split(', ')[1] }}
+    hr
+    .control.is-clearfix
+      label.filterCard(v-for="card in cardsWithoutImages", :key="card.id")
+        input(type="checkbox", :value="card.id" v-model="card.value")
+        span.filterCard__icon
+        span.filterCard__title {{ card.name.split(', ')[0] }}
+          span(v-if="card.name.split(', ')[1]") ,
+          span.filterCard__title-red(v-if="card.name.split(', ')[1]") &nbsp;{{ card.name.split(', ')[1] }}

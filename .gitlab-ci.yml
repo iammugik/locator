@@ -1,0 +1,61 @@
+stages:
+  # - check
+  - install
+  - build
+  - deploy
+
+# danger:
+#   stage: check
+#   image: inloopx/danger-gitlab
+#   before_script:
+#     - export CI_MERGE_REQUEST_ID=$(git ls-remote -q origin merge-requests\*\head | grep $CI_COMMIT_SHA | sed 's/.*refs\/merge-requests\/\([0-9]*\)\/head/\1/g')
+#     - export CI_PROJECT_PATH=$CI_PROJECT_ID #some version of gitlab has problems with searching by project path
+#   script:
+#     - danger
+
+node_modules:
+  image: node:12.16.3
+  stage: install
+  cache:
+    key: ${CI_BUILD_REF_NAME}
+    paths:
+    - node_modules/
+  script:
+    - npm ci
+  artifacts:
+    untracked: true
+    paths:
+      - node_modules/
+    expire_in: 15 min
+  only:
+    - master
+
+generate:
+  image: node:12.16.3
+  stage: build
+  script:
+    - npm run generate
+  dependencies:
+    - node_modules
+  artifacts:
+    paths:
+    - dist/
+    expire_in: 15 min
+  only:
+    - master
+
+deploy:
+  image: augusteo/centos-rsync-openssh
+  stage: deploy
+  before_script:
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH")
+    - mkdir -p ~/.ssh
+    - echo -e 'Host *\n\tStrictHostKeyChecking no\n\n' > ~/.ssh/config
+  script:
+    - ls -ln
+    - rsync -avz --stats --progress ./dist/ locator@95.163.71.74:/var/www/locator/front/
+  only:
+    - master
+  dependencies:
+    - generate

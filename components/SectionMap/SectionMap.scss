@@ -1,0 +1,100 @@
+.sectionMap {
+  $self: &;
+  &__container {
+    width: calc(100% - 400px);
+    height: 100%;
+    background-color: #f1f1f1;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    transition: width 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  &.sectionMap--full {
+    #{$self}__container {
+      width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    &__container {
+      height: 80vh;
+      width: 100%;
+    }
+  }
+
+  &__canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .button {
+      background-color: transparent;
+      border: 0;
+    }
+  }
+
+  &--loading {
+    & + {
+      .sectionTools {
+        &::after {
+          content: '';
+          position: absolute;
+          display: block;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          background-color: rgba(255,255,255,0.6);
+          z-index: 999;
+        }
+      }
+    }
+  }
+}
+
+.box--map {
+  padding: 10px;
+  font-size: 16px;
+
+  @media screen and (max-width: 768px) {
+    padding: 10px 0;
+  }
+
+  .media-left {
+    font-size: 7rem;
+
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .content div {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.gm-style-iw > div {
+  max-width: 100% !important;
+}
+
+.box {
+  box-shadow: none !important;
+}
+
+.gm-style-iw-d + button {
+  top: 0 !important;
+  right: 0 !important;
+}

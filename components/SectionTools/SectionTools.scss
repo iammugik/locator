@@ -1,0 +1,75 @@
+@import '~bulma-slider/dist/css/bulma-slider.min.css';
+
+.sectionTools {
+  width: 400px;
+  float: right;
+  min-height: 100%;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+
+  &.sectionTools--hide {
+    transform: translate(100%, 0);
+  }
+
+  @media screen and (max-width: 1024px) {
+    width: 100%;
+    margin-top: 80vh;
+    position: relative;
+    z-index: 2;
+
+    &.sectionTools--hide {
+      transform: translate(0, 0);
+    }
+  }
+
+  &__threshold {
+    display: inline-block;
+    width: 60px;
+  }
+}
+
+.button-clear {
+  @media screen and (min-width: 768px) {
+    span {
+      display: inline;
+    }
+
+    i {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    span {
+      display: none;
+    }
+
+    i {
+      display: inline;
+    }
+  }
+}
+
+.button-routeAdd {
+  @media screen and (max-width: 360px) {
+    width: 215px;
+    overflow: hidden;
+    display: block;
+  }
+}
+
+.form-margin {
+  margin-bottom: 40px;
+}
+
+.input.is-danger,
+.textarea.is-danger {
+  z-index: 1;
+}
+
+.sticky {
+  position: sticky;
+  bottom: 20px;
+  left: 0;
+  margin-top: 10px;
+}

@@ -1,0 +1,8 @@
+div
+  h3.title.is-5 По топливу
+  .field
+    .control.is-clearfix
+      label.filterService(v-for="service in services", :key="service.name")
+        input(type="checkbox", :value="service.name", name="services", v-model="service.value")
+        span {{ service.name }}
+        i

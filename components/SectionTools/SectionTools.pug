@@ -1,0 +1,73 @@
+section.sectionTools.card
+  BaseLogo
+  .card-content
+    form.form-margin(@submit.prevent="buildRoute")
+      .field
+        .field-body
+          .field.is-expanded
+            .field.has-addons
+              .control.has-icons-left.is-expanded
+                input.input(type="text", placeholder="Регион, город, улица", :class="{'is-danger': route[0].error}", v-model.lazy.trim="route[0].value", @input="onInputChange(0, true)")
+                span.icon.is-small.is-left
+                  i.fal.fa-map-marker-alt
+              .control
+                button.button(type="button", :class="{ 'is-loading': isFindingGeolocation, 'is-danger is-outlined': findGeolocationError }", @click="findGeolocation")
+                  span.icon.is-small
+                    i.fal.fa-location
+            p.help.is-danger(v-if="route[0].error") {{ route[0].error }}
+            p.help широта:
+              b(v-if="!route[0].latitude") &nbsp;<i class="fal fa-empty-set"></i>
+              b(v-if="route[0].latitude") &nbsp;{{ route[0].latitude }}
+              | ; долгота:
+              b(v-if="!route[0].longitude") &nbsp;<i class="fal fa-empty-set"></i>
+              b(v-if="route[0].longitude") &nbsp;{{ route[0].longitude }}
+              |;
+      .field(v-for="(routeItem, index) in filteredRoute")
+        .field-body
+          .field.is-expanded
+            .field(:class="{'has-addons': filteredRoute.length != 1}")
+              .control.has-icons-left.is-expanded
+                input.input(type="text", placeholder="Укажите пункт назначения", :class="{'is-danger': routeItem.error}", v-model.lazy.trim="routeItem.value", @input="onInputChange(index)")
+                span.icon.is-small.is-left
+                  i.fas.fa-map-marker-alt
+              .control(v-if="filteredRoute.length != 1")
+                button.button(type="button", @click="removeRoute(index + 1)")
+                  span.icon.is-small
+                    i.fal.fa-map-marker-minus
+            p.help.is-danger(v-if="routeItem.error") {{ routeItem.error }}
+            p.help широта:
+              b(v-if="!routeItem.latitude") &nbsp;<i class="fal fa-empty-set"></i>
+              b(v-if="routeItem.latitude") &nbsp;{{ routeItem.latitude }}
+              | ; долгота:
+              b(v-if="!routeItem.longitude") &nbsp;<i class="fal fa-empty-set"></i>
+              b(v-if="routeItem.longitude") &nbsp;{{ routeItem.longitude }}
+      .field.is-grouped
+        .control
+          button.button.is-light.button-routeAdd(type="button", @click="addRoute()")
+            span.icon.is-small
+              i.fal.fa-map-marker-plus
+            span.is-size-6--5 Добавить пункт назначения
+        .control
+          button.button.is-text.button-clear(type="reset", @click="resetRoute")
+            span.is-size-6--5 Очистить
+            i.fal.fa-backspace
+      .field.is-grouped
+        .control.mr-0.is-size-6--5
+          span Фильтр АЗС в пределах
+          span.sectionTools__threshold.is-size-6--5.ml-1
+            span.has-text-weight-bold  {{ routeThreshold }}
+            span м
+        .control.is-flex.is-align-items-center
+          input.slider.is-circle.my-0.mr-2(type="range", step="100", min="0", max="1000", v-model.number="routeThreshold")
+      .field
+        .content
+          button.button.is-primary(
+            type="submit",
+            :disabled="filteredRoute.length === 0",
+            :title="filteredRoute.length === 0 ? 'Для построения маршрута необходимо указать пункты отправления и назначения' : 'Построить маршрут'"
+          ) Построить маршрут
+    form(@submit.prevent="filterMarkers")
+      FilterCard
+      FilterService
+      button.sticky.button.is-primary(type="submit") Отфильтровать
+  slot

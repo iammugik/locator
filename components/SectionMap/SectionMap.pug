@@ -1,0 +1,14 @@
+.sectionMap(:class="{'sectionMap--loading': isMapLoading, 'sectionMap--full': !isShowTools}")
+  section.sectionMap__container
+    .sectionMap__canvas#map
+    .sectionMap__loading(v-show="isMapLoading")
+      .button.is-loading
+  SectionTools(
+    :class="{'sectionTools--hide': !isShowTools}"
+    :map="map",
+  )
+    button.sectionNotification__switch(@click="toggleTools", :class="{'toggleTools--alt': !isShowTools}")
+      i.fal.fa-arrow-to-right(v-if="isShowTools")
+      i.fal.fa-arrow-to-left(v-else)
+    a.sectionNotification__scroll(href="#express-card")
+      i.fal.fa-arrow-to-top

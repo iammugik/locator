@@ -1,0 +1,35 @@
+.filterService {
+  padding-left: 30px;
+  position: relative;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  display: inline-block;
+  cursor: pointer;
+
+  i {
+    font-style: normal;
+  }
+
+  i::after {
+    content: ''; // square
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 300;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%);
+    display: inline-block;
+    font-size: 1.5rem;
+    color: #4a4a4a;
+  }
+
+  input {
+    display: none;
+
+    &:checked {
+      & ~ i::after {
+        content: ''; // square
+      }
+    }
+  }
+}
