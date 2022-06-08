@@ -74,7 +74,15 @@ export default {
         this.route[index + 1].longitude = null
       }
     },
-    findGeolocation() {
+    async findGeolocation() {
+      if (this.route[0].value.length === 0) return
+
+      const result = await this.map.findGeolocation(this.route[0].value)
+      this.map.map.setBounds(result.bounds, {
+        checkZoomRange: true
+      })
+    },
+    findMyselfGeolocation() {
       this.isFindingGeolocation = true
 
       if (!navigator.geolocation) {
@@ -187,24 +195,9 @@ export default {
         this.map.clearAdditionalMarkers()
 
         if (typeof start === 'string') {
-          this.$api.findGeolocationPos(start).then(res => {
-            if (!res.success) {
-              // this.$store.dispatch('addNotification', [
-              //   'Ошибка получения координат',
-              //   'error'
-              // ])
-              return false
-            }
-
-            this.map.setAdditionalMarker([
-              res.data.coordinates.latitude,
-              res.data.coordinates.longitude
-            ])
-            this.map.setCenter([
-              res.data.coordinates.latitude,
-              res.data.coordinates.longitude
-            ])
-          })
+          const result = await this.map.findGeolocation(start)
+          this.map.setAdditionalMarker(result.coords)
+          this.map.map.setBounds(result.bounds)
         } else {
           this.map.setAdditionalMarker([start[0], start[1]])
         }

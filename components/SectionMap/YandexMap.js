@@ -194,6 +194,16 @@ export default class YandexMap {
       }
     })
   }
+  async findGeolocation(address) {
+    const result = await ymaps.geocode(address, { results: 1 })
+    const firstGeoObject = result.geoObjects.get(0)
+    const coords = firstGeoObject.geometry.getCoordinates()
+    const bounds = firstGeoObject.properties.get('boundedBy')
+    return {
+      coords,
+      bounds
+    }
+  }
   setCenter(position) {
     this.map.setCenter(position)
   }

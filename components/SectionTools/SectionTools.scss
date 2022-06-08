@@ -28,28 +28,6 @@
   }
 }
 
-.button-clear {
-  @media screen and (min-width: 768px) {
-    span {
-      display: inline;
-    }
-
-    i {
-      display: none;
-    }
-  }
-
-  @media screen and (max-width: 768px) {
-    span {
-      display: none;
-    }
-
-    i {
-      display: inline;
-    }
-  }
-}
-
 .button-routeAdd {
   @media screen and (max-width: 360px) {
     width: 215px;

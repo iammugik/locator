@@ -7,13 +7,33 @@ section.sectionTools.card
           .field.is-expanded
             .field.has-addons
               .control.has-icons-left.is-expanded
-                input.input(type="text", placeholder="Регион, город, улица", :class="{'is-danger': route[0].error}", v-model.lazy.trim="route[0].value", @input="onInputChange(0, true)")
+                input.input(
+                  type="text",
+                  placeholder="Регион, город, улица",
+                  :class="{'is-danger': route[0].error}",
+                  v-model.lazy.trim="route[0].value",
+                  @input="onInputChange(0, true)"
+                  @keyup.enter="findGeolocation"
+                )
                 span.icon.is-small.is-left
                   i.fal.fa-map-marker-alt
               .control
-                button.button(type="button", :class="{ 'is-loading': isFindingGeolocation, 'is-danger is-outlined': findGeolocationError }", @click="findGeolocation")
+                button.button(
+                  type="button",
+                  title="Определить геолокацию",
+                  @click="findGeolocation"
+                )
                   span.icon.is-small
-                    i.fal.fa-location
+                    i.fal.fa-search
+              .control
+                button.button(
+                  type="button",
+                  title="Моя геолокация",
+                  :class="{ 'is-loading': isFindingGeolocation, 'is-danger is-outlined': findGeolocationError }",
+                  @click="findMyselfGeolocation"
+                )
+                  span.icon.is-small
+                    i.fal.fa-location-arrow
             p.help.is-danger(v-if="route[0].error") {{ route[0].error }}
             p.help широта:
               b(v-if="!route[0].latitude") &nbsp;<i class="fal fa-empty-set"></i>
@@ -50,7 +70,6 @@ section.sectionTools.card
         .control
           button.button.is-text.button-clear(type="reset", @click="resetRoute")
             span.is-size-6--5 Очистить
-            i.fal.fa-backspace
       .field.is-grouped
         .control.mr-0.is-size-6--5
           span Фильтр АЗС в пределах
